@@ -36,7 +36,7 @@ def savings(gross_pay, tax_rate, expenses):
 
 def savings(gross_pay, tax_rate, expenses):
     after_tax = int(gross_pay * (1 - tax_rate))
-    remaining = (100 * (after_tax - expenses))
+    remaining = (after_tax - expenses)
     return remaining
     
 
