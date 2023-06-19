@@ -37,13 +37,13 @@ def shift_letter(letter, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-def shift_letter(letter, shift)
+def shift_letter(letter, shift):
     if letter == " ":
         return " "
     ascii_val = ord(letter)
     shifted_val = ascii_val + shift
     if shifted_val > 90:
-        shifted_val = (shufted_val - 65) % 26 + 65
+        shifted_val = (shifted_val - 65) % 26 + 65
     elif shifted_val < 65:
         shifted_val = 90 - (65 - shifted_val - 1) % 26
     shifted_letter = chr(shifted_val)
@@ -215,10 +215,10 @@ def scytale_cipher(message, shift):
         message += "_" * (shift - len(message % shift))
     FV = ""
     num_rows = len(message) // shift
-    for i in range(len(encoded_message)):
+    for i in range(len(FV)):
         general_index = (i // shift) + (len(message) // shift) * (i % shift)
         FV += message[general_index]
-    retrun FV
+    return FV
 
 
 def scytale_decipher(message, shift):
