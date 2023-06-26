@@ -111,8 +111,10 @@ def shift_by_letter(letter, letter_shift):
 def shift_by_letter(letter, letter_shift):
     if letter == " ":
         return " "
-    shift_value = ord(letter_shift) - ord("A")
-    FV = shift_letter(letter, shift_value)
+    else:
+        set = ord("A")
+        shifted_ascii = (ord(letter) - set + (ord(letter_shift) - set))
+        FV = chr(shifted_ascii + set)
     return FV
 
 
@@ -148,13 +150,18 @@ def vigenere_cipher(message, key):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def vigenere_cipher(message, key):
-    message = message.replace(" ","")
-    key = key * ((len(message)//len(key)) + 1)
+    message = message.upper()
+    key = key.upper
+    key_extension = key * ((len(message)//len(key)) + key[:len(message) % len(key)])
     FV = ""
-    for i, char in enumerate(message):
-        shift_letter = key[i]
-        ciphered_char = shift_by_letter(char, shift_letter)
-        FV += ciphered_char
+    for i in range(len(message)):
+        if message[i] == " ":
+            FV += " "
+        else:
+            set = ord("A")
+            shifted_ascii = (ord(message[i]) - set + (ord(key_extension[i]) - set))
+            shifted_letter = chr(shifted_ascii + set)
+            FV += shifted_letter
     return FV
 
 
@@ -211,11 +218,10 @@ def scytale_cipher(message, shift):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def scytale_cipher(message, shift):
+    FV = ""
     if len(message) % shift != 0:
         message += "_" * (shift - len(message % shift))
-    FV = ""
-    num_rows = len(message) // shift
-    for i in range(len(FV)):
+    for i in range(len(message)):
         general_index = (i // shift) + (len(message) // shift) * (i % shift)
         FV += message[general_index]
     return FV
@@ -249,10 +255,22 @@ def scytale_decipher(message, shift):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def scytale_decipher(message, shift):
-    num_rows = len(message)/shift
+    num_columns = -(-len(message) // shift)
+    num_rows = shift
+
+    grid = [[''] * num_columns for _ in range(num_rows)]
+
+    index = 0
+
+    for col in range(num_columns):
+        for row in range(num_rows):
+            grid[row][col] = message[index]
+            index += 1
+
     decoded = ""
-    for i in range(len(message)):
-        general_index = (i // num_rows) + (shift * (i % num_rows))
-        decoded_message += message[general_index]
-    decoded = decoded.rstrip('_')
+
+    for row in range(num_rows):
+        for col in range(num_columns):
+            decoded += grid[row][col]
+      
     return decoded
