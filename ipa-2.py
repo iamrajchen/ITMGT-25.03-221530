@@ -151,8 +151,8 @@ def vigenere_cipher(message, key):
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def vigenere_cipher(message, key):
     message = message.upper()
-    key = key.upper
-    key_extension = key * ((len(message)//len(key)) + key[:len(message) % len(key)])
+    key_modified = key.upper
+    key_extension = key_modified * ((len(message)//len(key_modified)) + key_modified[:len(message) % len(key_modified)])
     FV = ""
     for i in range(len(message)):
         if message[i] == " ":
