@@ -150,16 +150,16 @@ def vigenere_cipher(message, key):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def vigenere_cipher(message, key):
-    message = message.upper()
+    message_modified = message.upper()
     key_modified = key.upper
-    key_extension = key_modified * ((len(message)//len(key_modified)) + key_modified[:len(message) % len(key_modified)])
+    key_extension = key_modified * ((len(message_modified)//len(key_modified)) + key_modified[:len(message) % len(key_modified)])
     FV = ""
-    for i in range(len(message)):
-        if message[i] == " ":
+    for i in range(len(message_modified)):
+        if message_modified[i] == " ":
             FV += " "
         else:
             set = ord("A")
-            shifted_ascii = (ord(message[i]) - set + (ord(key_extension[i]) - set))
+            shifted_ascii = (ord(message_modified[i]) - set + (ord(key_extension[i]) - set))
             shifted_letter = chr(shifted_ascii + set)
             FV += shifted_letter
     return FV
