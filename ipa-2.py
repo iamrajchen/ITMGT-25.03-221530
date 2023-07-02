@@ -112,9 +112,11 @@ def shift_by_letter(letter, letter_shift):
     if letter == " ":
         return " "
     else:
-        base = ord("A")
-        shifted_ascii = (ord(letter) - base + (ord(letter_shift) - base))
-        FV = chr(shifted_ascii + base)
+        letter_num = ord(letter) - ord("A")
+        shift = ord(letter_shift) - ord("A")
+        shifted_num = (letter_num + shift) % 26
+        shifted_ascii = shifted_num + ord("A")
+        FV = chr(shifted_ascii)
     return FV
 
 
@@ -152,17 +154,17 @@ def vigenere_cipher(message, key):
 def vigenere_cipher(message, key):
     message_modified = message.upper()
     key_modified = key.upper()
-    key_extension = key_modified * ((len(message_modified)//len(key_modified)) + key_modified[:len(message_modified) % len(key_modified)])
+    key_extension = key_modified * (len(message_modified) // len(key_modified)) + key_modified[:len(message_modified) % len(key_modified)]
     FV = ""
     for i in range(len(message_modified)):
         if message_modified[i] == " ":
             FV += " "
         else:
-            base = ord("A")
-            shifted_ascii = (ord(message_modified[i]) - base + (ord(key_extension[i]) - base))
-            shifted_letter = chr(shifted_ascii + base)
-            FV += shifted_letter
-    return FV
+            x = (ord(message_modified[i]) + ord(key_extension[i])) % 26
+            x += ord('A')
+            FV += chr(x)
+    return "".join(FV)
+
 
 
 def scytale_cipher(message, shift):
