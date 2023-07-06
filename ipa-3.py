@@ -46,7 +46,7 @@ def relationship_status(from_member, to_member, social_graph):
         return "friends"
     elif from_member in social_graph[to_member]['following']:
         return "followed by"
-    elif from_member in social_graph[from_member]['following']:
+    elif to_member in social_graph[from_member]['following']:
         return "follower"
     else:
         return "no relationship"
@@ -81,7 +81,7 @@ def tic_tac_toe(board):
 def tic_tac_toe(board):
     size = len(board[0])
 
-    diagonal = [[board[i][i] for i in range(len(board))], [board[i][size - i - 1] for i in range(size)]]
+    diagonal = [[board[i][i] for i in range(size)], [board[i][size - i - 1] for i in range(size)]]
     column = []
     for row_num in range(size):
         column.append([board[i][row_num] for i in range(size)])
@@ -138,26 +138,46 @@ def eta(first_stop, second_stop, route_map):
     route = (first_stop, second_stop)
 
     if route in route_map:
-        return route_map[route]['travel_time']
+        total_time += int(route_map[route]['travel_time'])
 
-    next_stop = None
-    for stops, time in route_map.items():
-        if stops[0] == first_stop:
-            next_stop = stops[1]
-            total_time += time["travel_time"]
-            break
+    elif first_stop == second_stop:
+        total_time += 0
 
-    while next_stop != second_stop:
-        found = False
-        for stops, time in route_map.items():
-            if stops[0] == next_stop:
-                next_stop = stops[1]
-                total_time += time["travel_time"]
-                found = True
+    else:
+        route_list = list(route_map.keys())
+        inda = 0
+        indb = 0
+
+        for key in route_map:
+            if first_stop in route_list[inda][0]:
+                if inda > indb or inda == indb:
+                    total_time += int(route_map[key]['travel_time'])
                 break
-        if not found:
-            return -1  # No valid route between first_stop and second_stop
+            else:
+                inda += 1
+
+        for key in route_map:
+            if second_stop in route_list[indb][1]:
+                total_time += int(route_map[key]['travel_time'])
+                break
+            indb += 1
+
+        if inda < indb:
+            inda += 1
+            while inda != indb:
+                total_time += int(route_map[key]['travel_time'])
+                inda += 1
+            while inda != len(route_map):
+                total_time += int(route_map[key]['travel_time'])
+                inda += 1
+        elif indb > inda:
+            inda += 1
+            while inda != len(route_map):
+                total_time += int(route_map[key]['travel_time'])
+                inda += 1
+            indb = 0
+            while second_stop not in route_list[indb][1]:
+                total_time += int(route_map[key]['travel_time'])
+                indb += 1
 
     return total_time
-
-
