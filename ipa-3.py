@@ -134,50 +134,24 @@ def eta(first_stop, second_stop, route_map):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def eta(first_stop, second_stop, route_map):
-    total_time = 0
     route = (first_stop, second_stop)
-
+    
     if route in route_map:
-        total_time += int(route_map[route]['travel_time'])
+        return route_map[route]["time_mins"]
+    
+    total_time = 0
+    current_stop = first_stop
 
-    elif first_stop == second_stop:
-        total_time += 0
-
-    else:
-        route_list = list(route_map.keys())
-        inda = 0
-        indb = 0
-
-        for key in route_map:
-            if first_stop in route_list[inda][0]:
-                if inda > indb or inda == indb:
-                    total_time += int(route_map[key]['travel_time'])
-                break
-            else:
-                inda += 1
-
-        for key in route_map:
-            if second_stop in route_list[indb][1]:
-                total_time += int(route_map[key]['travel_time'])
-                break
-            indb += 1
-
-        if inda < indb:
-            inda += 1
-            while inda != indb:
-                total_time += int(route_map[key]['travel_time'])
-                inda += 1
-            while inda != len(route_map):
-                total_time += int(route_map[key]['travel_time'])
-                inda += 1
-        elif indb > inda:
-            inda += 1
-            while inda != len(route_map):
-                total_time += int(route_map[key]['travel_time'])
-                inda += 1
-            indb = 0
-            while second_stop not in route_list[indb][1]:
-                total_time += int(route_map[key]['travel_time'])
-                indb += 1
+    while current_stop != second_stop:
+        found_key = next((key for key in route_map if key[0] == current_stop), None)
+        if found_key:
+            total_time += route_map[found_key]["time_mins"]
+            current_stop = found_key[1]
+        else:
+            break
 
     return total_time
+    
+
+
+   
