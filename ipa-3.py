@@ -134,10 +134,8 @@ def eta(first_stop, second_stop, route_map):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
 def eta(first_stop, second_stop, route_map):
-    route = (first_stop, second_stop)
-    
-    if route in route_map:
-        return route_map[route]["time_mins"]
+    if (first_stop, second_stop) in route_map:
+        return route_map[(first_stop, second_stop)]["time_mins"]
     
     total_time = 0
     current_stop = first_stop
